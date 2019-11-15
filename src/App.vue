@@ -1,32 +1,15 @@
 <template>
   <div id="app">
-    <ul id="navbar">
-      <li>
-        <router-link to="/">Hem</router-link>
-      </li>
-      <li>
-        <router-link to="/poker">Pokerspelet</router-link>
-      </li>
-      <li>
-        <router-link to="/test">Testet</router-link>
-      </li>
-    </ul>
-
-    <router-view></router-view>
+    <VideoPoker></VideoPoker>
   </div>
 </template>
 
 <script>
   import "./assets/css/fonts.css";
-
-  import LandingPage from "./components/LandingPage.vue";
   import VideoPoker from "./components/VideoPoker.vue";
-  import PersonalityTest from "./components/PersonalityTest.vue";
 
   export default {
     components: {
-      LandingPage,
-      PersonalityTest,
       VideoPoker
     },
     created() {
@@ -48,6 +31,7 @@
     flex-direction: column;
     height: 100vh;
   }
+
 
   body {
     background-color: #222;

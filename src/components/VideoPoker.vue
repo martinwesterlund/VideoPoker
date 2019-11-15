@@ -114,19 +114,6 @@
     },
     methods: {
       getCards() {
-        if (this.credits === 0) {
-          alert("STOPP OCH BELÄGG! ÄR DU INTE SPELBEROENDE?");
-          let answer = prompt(
-            'OM DU VILL SPELA MER SÅ BEKRÄFTA ATT DU INTE HAR PROBLEM! SKRIV "JAG ÄR INTE SPELBEROENDE"'
-          );
-
-          if (answer === "JAG ÄR INTE SPELBEROENDE") {
-            alert("OKEJ. DU FÅR 10 CREDITS TILL. SPELA HÄLSOSAMT KÄRA BARN.")
-            this.$store.commit("addCredits");
-            // this.$store.commit("getFiveRandomCards")
-          }
-        }
-
         this.$store.commit("getFiveRandomCards");
       },
 
@@ -137,6 +124,7 @@
       calcValue() {
         this.$store.commit("calculateValue");
       },
+
       lockCard(id) {
         this.$store.commit("toggleLock", id);
       },
@@ -165,6 +153,9 @@
 
 <style scoped>
 
+#component-body{
+  height: 100vh;
+}
 
 
   #combination {

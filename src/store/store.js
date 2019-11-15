@@ -50,76 +50,8 @@ export const store = new Vuex.Store({
       { type: 'JACKS OR BETTER', value: 1 }
     ],
 
-    quizResults: [{
-      type: 'Du är spelberoende',
-      symbol: require('../assets/2x/typeA.png'),
-      description: 'Dina svar tyder på ett allvarligt spelberoende. Det visas tydliga tecken på att din koppling till spel har påverkat din omdömesförmåga samt dina livsval. Vi rekommenderar att du tar kontakt med en terapeut som vidare kan erbjuda dig lämplig hjälp.'
-    },
-
-    {
-      type: 'Du visar måttliga symptom på ett spelberoende',
-      symbol: require('../assets/2x/typeB.png'),
-      description: 'Dina spelvanor tyder inte på något allvarligt spelberoende, men dina svar pekar på en etablerad förbindelse till spel i allmänhet. Det kan vara en bra idé att tänka till lite över hur mycket du ägnar dig åt spel, och om du inte möjligtvist behöver trappa ner på spelandet.'
-    },
-
-    {
-      type: 'Du är inte spelberoende, men du är allt spelvan.',
-      symbol: require('../assets/2x/typeC.png'),
-      description: 'Ingenting pekar på att du är beroende av det du spelar. Dina svar pekar på att du har etablerade spelvanor, men de har ännu inte påverkat ditt omdöme till den mån att du hamnar i någon slags farozon. Det kan fortfarande vara en bra sak för dig att tänka över dina vanor i framtiden, då detta alltid kan förändras.'
-    },
-
-    {
-      type: 'Du mår bra',
-      symbol: require('../assets/2x/typeD.png'),
-      description: 'Du mår helt okej! Du spelar verkligen inte för mycket från så långt som vi kan läs av dina svar. Ha en trevlig fortsättning och tack för att du tog vårt test.'
-    },
-
-
-    ],
-
-    questions: [{
-      question: 'Jag spelar ofta längre än jag har förutsatt mig',
-      alternatives: [{ answer: 'Instämmer helt', value: 'A' },
-      { answer: 'Till viss del', value: 'B' },
-      { answer: 'Inte riktigt', value: 'C' },
-      { answer: 'Det har aldrig hänt', value: 'D' }
-      ]
-    }, {
-
-      question: 'Jag känner att jag måste vinna tillbaka allt när jag har förlorat',
-      alternatives: [
-        { answer: 'Förekommer ofta', value: 'A' },
-        { answer: 'Förekommer då och då', value: 'B' },
-        { answer: 'Det har hänt', value: 'C' },
-        { answer: 'Har inte känt så', value: 'D' }
-      ]
-    }, {
-      question: 'Jag har spelat för att fly undan oro, problem och/eller ensamhet',
-      alternatives: [
-        { answer: 'Jag känner ofta så', value: 'A' },
-        { answer: 'Jag känner till viss del så', value: 'B' },
-        { answer: 'Jag känner inte riktigt på detta sätt', value: 'C' },
-        { answer: 'Jag kan inte alls relatera', value: 'D' }
-      ]
-    }, {
-      question: 'Spelandet har gjort mitt liv tråkigt',
-      alternatives: [
-        { answer: 'Instämmer', value: 'A' },
-        { answer: 'Instämmer till viss del', value: 'B' },
-        { answer: 'Inte säker', value: 'C' },
-        { answer: 'Håller inte alls med', value: 'D' }
-      ]
-    }, {
-      question: 'Jag känner ånger eller skuld över mitt spelande',
-      alternatives: [
-        { answer: 'Ja', value: 'A' },
-        { answer: 'Till viss del', value: 'B' },
-        { answer: 'Lite grann', value: 'C' },
-        { answer: 'Inte alls', value: 'D' }
-      ]
-    },
-
-    ]
+    
+    
   },
 
   mutations: {
@@ -202,14 +134,11 @@ export const store = new Vuex.Store({
       state.credits += 10
     },
 
-    //Toggles theme between modern and classic
-
     toggleTheme(state) {
       state.modern = !state.modern
       playSound('button.mp3')
     },
 
-    //Toggles sound on and off
     toggleSound(state) {
       state.soundOn = !state.soundOn
       playSound('button.mp3')
@@ -218,80 +147,6 @@ export const store = new Vuex.Store({
     toggleSettings(state) {
       state.showSettings = !state.showSettings
     },
-
-    submitAnswer(state, value) { //Returns the value associated with answer to each question
-      if ((state.questionNumber + 1) == state.questions.length) {
-        state.answers.push(value)
-        this.commit('calculateType')
-        this.commit('displayResult')
-
-      } else {
-
-        state.answers.push(value)
-        state.questionNumber++
-      }
-
-
-    },
-
-    previousQuestion(state) {
-      state.questionNumber--
-      state.answers.splice(-1, 1)
-    },
-
-    //Calculates corresponding type by answers
-    calculateType(state) {
-      const quantities = {}
-      let a = state.answers //e.g. ['A', 'B', 'A', 'C', 'D']
-      a.forEach(char => {
-        quantities[char] = a.filter(value => value === char).length
-      })
-      let newList = Object.entries(quantities)
-
-      newList.sort((a, b) => a[1] < b[1] ? 1 : b[1] < a[1] ? -1 : 0)
-
-      switch (newList[0][0]) {
-        case 'A':
-          state.yourResult = state.quizResults[0]
-          break
-        case 'B':
-          state.yourResult = state.quizResults[1]
-          break
-        case 'C':
-          state.yourResult = state.quizResults[2]
-          break
-        case 'D':
-          state.yourResult = state.quizResults[3]
-          break
-      }
-
-
-    },
-
-
-
-    hideStart(state) {
-      state.startDisplay = !state.startDisplay
-    },
-
-    showQuiz(state) {
-      state.quizDisplay = !state.quizDisplay
-    },
-
-    displayResult(state) {
-      state.quizDisplay = !state.quizDisplay
-      state.resultDisplay = !state.resultDisplay
-    },
-
-    resetQuiz(state) {
-      state.questionNumber = 0
-      state.answers = []
-      state.yourResult = {}
-      state.quizDisplay = false
-      state.resultDisplay = false
-      state.startDisplay = true
-    },
-
 
 
     // Replaces the unlocked cards with new cards from the deck

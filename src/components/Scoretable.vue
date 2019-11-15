@@ -38,6 +38,7 @@ export default {
   width: 100vw;
   padding: 0.5 rem;
   font-size: 0.8rem;
+  margin-top: 5vh;
 }
 
 .modern {
